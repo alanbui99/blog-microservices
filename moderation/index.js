@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const badWords = ["fuck", "shit", "cunt", "asshole"];
+const badWords = ["bad1", "bad2", "bad3", "bad4"];
 
 app.post("/events", (req, res) => {
     console.log(`moderation received event: ${req.body.type}`)
