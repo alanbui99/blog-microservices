@@ -1,0 +1,64 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/* # watch for changes in those yaml files for k8s
+build:
+  local:
+    push: false # not push to docker hub when changes happen
+  artifacts: # list what need to be maintained
+    - image: alanbui/blog-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js' # changes in js files are applied straight to the pod, others will trigger rebuild of pod
+            dest: .
+    - image: alanbui/blog-posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js' # changes in js files are applied straight to the pod, others will trigger rebuild of pod
+            dest: .
+    - image: alanbui/blog-comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js' # changes in js files are applied straight to the pod, others will trigger rebuild of pod
+            dest: .
+    - image: alanbui/blog-query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js' # changes in js files are applied straight to the pod, others will trigger rebuild of pod
+            dest: .
+    - image: alanbui/blog-moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js' # changes in js files are applied straight to the pod, others will trigger rebuild of pod
+            dest: .
+    - image: alanbui/blog-event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js' # changes in js files are applied straight to the pod, others will trigger rebuild of pod
+            dest: .
+
+
+
+
+
+      

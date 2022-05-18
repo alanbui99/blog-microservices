@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-depl
+spec:
+  replicas: 1 # number of pods created from an image
+  selector:
+    matchLabels:
+      app: posts # find pods with label of 'posts'
+  template: # configurations for the pod the deployment will make
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+        - name: posts
+          image: alanbui/blog-posts:latest
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-clusterip-srv
+spec:
+  type: ClusterIP # optional because it's ClusterIP by default
+  selector:
+    app: posts
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000 # (service port)
+      targetPort: 4000 # (pod port, usually same as port)

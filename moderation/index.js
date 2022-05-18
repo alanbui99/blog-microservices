@@ -10,6 +10,7 @@ app.use(cors());
 const badWords = ["fuck", "shit", "cunt", "asshole"];
 
 app.post("/events", (req, res) => {
+    console.log(`moderation received event: ${req.body.type}`)
     const { type, data } = req.body;
 
     if (type === "CommentCreated") {
@@ -24,7 +25,7 @@ app.post("/events", (req, res) => {
         }
 
         axios
-            .post("http://localhost:4005/events", {
+            .post("http://event-bus-srv:4005/events", {
                 type: "CommentModerated",
                 data: { postId, id, status: moderatedStatus },
             })

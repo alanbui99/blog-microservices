@@ -22,7 +22,7 @@ app.post("/post/:id/comments", (req, res) => {
     commentsByPostId[postId].push(comment);
 
     axios
-        .post("http://localhost:4005/events", {
+        .post("http://event-bus-srv:4005/events", {
             type: "CommentCreated",
             data: { postId, ...comment },
         })
@@ -41,12 +41,14 @@ app.get("/post/:id/comments", (req, res) => {
 app.post("/events", (req, res) => {
     const { type, data } = req.body;
 
+    console.log(`comments received event: ${req.body.type}`)
+
     if (type === "CommentModerated") {
         const { postId, id, status } = data;
         const comment = commentsByPostId[postId].find((c) => c.id === id);
         comment.status = status;
         axios
-            .post("http://localhost:4005/events", {
+            .post("http://event-bus-srv:4005/events", {
                 type: "CommentUpdated",
                 data: { postId, ...comment },
             })

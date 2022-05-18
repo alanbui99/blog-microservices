@@ -6,13 +6,13 @@ const PostCreate = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await axios.post('http://localhost:4000/posts', {title})
+        await axios.post('http://posts.com/posts/create', {title})
         setTitle('')        
     }
 
     return (
         <>
-            <h1>Create Post</h1>
+            <h1>Create Post!!!</h1>
             <form onSubmit={handleSubmit}>
                 <label>Title</label>
                 <input type="text" className="form-control" name="title" value={title} onChange={e => setTitle(e.target.value)}/>

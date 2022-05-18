@@ -33,6 +33,7 @@ app.get("/posts", (req, res) => {
 });
 
 app.post("/events", (req, res) => {
+    console.log(`query received event: ${req.body.type}`)
     const { type, data } = req.body;
     handleEvent(type, data);
 
@@ -43,12 +44,13 @@ app.listen(4002, async () => {
     console.log("query listening on 4002");
 
     try {
-        const resp = await axios.get("http://localhost:4005/events");
+        const resp = await axios.get("http://event-bus-srv:4005/events");
         const events = resp.data;
 
         for (const { type, data } of events) {
             handleEvent(type, data);
         }
+        console.log(posts)
     } catch (err) {
         console.log(err.message);
     }
